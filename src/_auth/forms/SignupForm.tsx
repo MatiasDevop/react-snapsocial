@@ -1,4 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/components/ui/use-toast";
+
 import {
   Form,
   FormControl,
@@ -16,10 +18,14 @@ import { SignupValidation } from "@/lib/validation";
 import { z } from "zod";
 import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
-import { createUserAccount } from "@/lib/appwrite/api";
+import { useCreateUserAccount } from "@/lib/react-query/queriesAndMutations";
 
 const SignupForm = () => {
-  const isLoading = true;
+  const { toast } = useToast();
+
+  //hook
+  const { mutateAsync: createUserAccount, isLoading: isCreatingUser } =
+    useCreateUserAccount();
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -31,11 +37,20 @@ const SignupForm = () => {
     },
   });
 
+  //const { mutateAsync: createUserAccount, isLoading: isCreatingAccount } = useCreateUserAccountMutation();
+
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     const newUser = await createUserAccount(values);
+    if (!newUser) {
+      return toast({
+        title: "Sign up failed",
+      });
+    }
+
+    //const session = await signInAccount()
     console.log(newUser);
   }
 
@@ -107,7 +122,7 @@ const SignupForm = () => {
             )}
           />
           <Button type="submit" className="mr-2 shad-button_primary">
-            {isLoading ? (
+            {isCreatingUser ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading ...
               </div>
