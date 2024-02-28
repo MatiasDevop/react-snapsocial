@@ -1,4 +1,4 @@
-import { ID, Query } from "appwrite";
+import { ID, Query, Permission, Role  } from "appwrite";
 import { account, appwriteConfig, storage, avatars, databases } from './config';
 import { INewPost, INewUser } from "../../types";
 
@@ -129,7 +129,14 @@ export async function createPost(post: INewPost) {
           imageId: uploadedFile.$id,
           location: post.location,
           tags: tags,
-        }
+        },
+        // [
+        //     Permission.read(Role.any()),                  // Anyone can view this document
+        //     // Permission.update(Role.team("writers")),      // Writers can update this document
+        //     // Permission.update(Role.team("admin")),        // Admins can update this document
+        //     // Permission.delete(Role.user("5c1f88b42259e")), // User 5c1f88b42259e can delete this document
+        //     // Permission.delete(Role.team("admin"))          // Admins can delete this document
+        // ]
       );
   
       if (!newPost) {
