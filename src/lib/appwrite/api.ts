@@ -129,14 +129,7 @@ export async function createPost(post: INewPost) {
           imageId: uploadedFile.$id,
           location: post.location,
           tags: tags,
-        },
-        // [
-        //     Permission.read(Role.any()),                  // Anyone can view this document
-        //     // Permission.update(Role.team("writers")),      // Writers can update this document
-        //     // Permission.update(Role.team("admin")),        // Admins can update this document
-        //     // Permission.delete(Role.user("5c1f88b42259e")), // User 5c1f88b42259e can delete this document
-        //     // Permission.delete(Role.team("admin"))          // Admins can delete this document
-        // ]
+        }
       );
   
       if (!newPost) {
@@ -194,3 +187,14 @@ export function getFilePreview(fileId: string) {
       console.log(error);
     }
   }
+
+export async function getRecentPosts() {
+  const posts = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.postCollectionId,
+    [Query.orderDesc('$createAt'), Query.limit(20)]
+  )
+  if(!posts) throw Error;
+
+  return posts;
+}
