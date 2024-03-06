@@ -125,7 +125,7 @@ export async function createPost(post: INewPost) {
         {
           creator: post.userId,
           caption: post.caption,
-          imageUrl: fileUrl,
+          image: fileUrl,
           imageId: uploadedFile.$id,
           location: post.location,
           tags: tags,
@@ -192,7 +192,7 @@ export async function getRecentPosts() {
   const posts = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.postCollectionId,
-    [Query.orderDesc('$createAt'), Query.limit(20)]
+    [Query.orderDesc('$createdAt'), Query.limit(20)]
   )
   if(!posts) throw Error;
 
