@@ -237,7 +237,7 @@ export async function savePost(postId: string, userId: string){
     console.log(error)
   }
 }
-
+//============================== Delete saved post ==========
 export async function deleteSavedPost(savedRecordId: string){
   try {
     const statusCode = await databases.deleteDocument(
@@ -249,6 +249,20 @@ export async function deleteSavedPost(savedRecordId: string){
     if(!statusCode) throw Error;
 
     return { status: 'ok' };
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getPostById(postId: string){
+  try {
+    const post = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      postId
+    )
+
+    return post;
   } catch (error) {
     console.log(error)
   }
