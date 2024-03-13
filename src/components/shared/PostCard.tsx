@@ -16,7 +16,6 @@ const PostCard = ({ post }: PostCardProps) => {
     <div className="post-card">
       <div className="flex-between">
         <div className="flex items-center gap-3">
-          {/* this link is take to the profile's post */}
           <Link to={`/profile/${post.creator.id}`}>
             <img
               src={
@@ -42,7 +41,6 @@ const PostCard = ({ post }: PostCardProps) => {
             </div>
           </div>
         </div>
-        {/* this link is sent to to edit post */}
         <Link
           to={`/update-post/${post.$id}`}
           className={`${user.id !== post.creator.$id && "hidden"}`}
