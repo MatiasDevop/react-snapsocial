@@ -1,6 +1,6 @@
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
-import { formatDate, formatDateString } from "@/lib/utils";
+import { formatDateString } from "@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
 import PostStats from "./PostStats";
 

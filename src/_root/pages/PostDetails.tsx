@@ -10,7 +10,7 @@ const PostDetails = () => {
   const { id } = useParams();
   const { data: post, isLoading } = useGetPostById(id || "");
   const { user } = useUserContext();
-  console.log(post);
+  console.log("post details..", post);
 
   const handleDeletePost = () => {};
   return (
@@ -80,6 +80,7 @@ const PostDetails = () => {
               </div>
             </div>
             <hr className="border w-full border-dark-4/80" />
+
             <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
               <p>{post?.caption}</p>
               <ul className="flex gap-1 mt-2">
